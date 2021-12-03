@@ -1,20 +1,20 @@
 //@ts-nocheck
 
 import { Command } from "../../Base/Command";
-import fetch from "node-superfetch";
+import fetch from "request";
 import { MessageEmbed, TextChannel } from "discord.js";
 import { Discord } from "../../Util/Colors.json";
 import { replaceLength, haveAndReplace } from "../../Util/extensions";
 export const command: Command = {
   category: "Utilidades",
-  name: "http",
-  aliases: ["http-dev"],
+  name: "http.status",
+  aliases: ['httpstatus'],
   description:
     "Con este comando se podra ver en que estado se encuentra una pagina.",
   enable: true,
   onlyOwner: false,
   example: [],
-  use: ["http <...url>"],
+  use: ["http.code <...url>"],
   run: async (client, message, args) => {
     if (!args[0])
       return message.lineReply(
@@ -51,52 +51,5 @@ export const command: Command = {
         ${client.Emojis.no_check} La pagina no existe o no fue encontrada. `)
         );
       });
-    /**
-         _.get(args[0].toString(), async function (response) {
-      message.lineReply(
-        new MessageEmbed().setColor(Discord).setDescription(`
-        
-    Estado: **${await replaceLength(
-      response.statusCode.toString(),
-      1000,
-      1000
-    )}**
-    Texto de estado: **${await replaceLength(
-      `${response.statusMessage}`,
-      1000,
-      1000
-    )}**
-    `)
-      );
-    }).on("error", (e) => {
-      message.lineReply(
-        new MessageEmbed().setColor(Discord).setDescription(`
-    ${client.Emojis.no_check} La pagina no existe o no fue encontrada.
-
-    ||${e}||
-                `)
-      );
-    });
-    _.get(args[0])
-      .then(async (res) => {
-        
-          .catch((res) => {
-            message.lineReply(
-              new MessageEmbed().setColor(Discord).setDescription(`
-    Error: ${res}
-                `)
-            );
-          });
-      })
-      .catch((e) => {
-        message.lineReply(
-          new MessageEmbed().setColor(Discord).setDescription(`
-      ${client.Emojis.no_check} La pagina no existe o no fue encontrada.
-
-      ||${e}||
-                  `)
-        );
-      }); 
-     */
   },
 };

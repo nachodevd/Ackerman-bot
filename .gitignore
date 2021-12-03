@@ -1,3 +1,4 @@
 /node_modules
-
+/.sqlite
+/Source/Base/Client.ts
 *.json

@@ -36,7 +36,11 @@ export const event: Event = {
               .then(buffer => {
                 const img = new MessageAttachment(buffer, 'img.png')
                 return client.channels.fetch(schema.LevelChannel).then((res) => {
-                  (res as TextChannel).send(img)
+                  try {
+                    (res as TextChannel).send(img)
+                  } catch (error) {
+                    return
+                  }
                 })
               })
           })
@@ -72,7 +76,7 @@ export const event: Event = {
             if (resp) {
               if (!message.guild.me.hasPermission('EMBED_LINKS')) return message.lineReply(`${client.Emojis.no_check} Necesito permisos para enviar embeds.`)
               Economy.createUser(message.member.id, message.guild.id) && (command as Command).run(client, message, args);
-              if (tip() !== false) message.lineReply(tip())
+              if (tip() === true || tip() !== false) return message.lineReply(tip())
             } else return message.lineReply(new MessageEmbed().setColor(Discord).setDescription(`
             ${client.Emojis.no_check} Debes esperar **${tiempo.segundos}** segundos para volver a usar **${command.name}**.`))
           })
