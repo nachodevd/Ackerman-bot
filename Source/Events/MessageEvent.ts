@@ -7,7 +7,6 @@ import { Message, MessageAttachment, MessageEmbed, TextChannel } from "discord.j
 import { Command } from "../Base/Command";
 import LevelModel from '../Models/LevelModel'
 import { Rank } from 'canvacord'
-import { tip } from "../Util/extensions";
 export const event: Event = {
   name: "message",
   run: async (client, message: Message) => {
@@ -23,10 +22,11 @@ export const event: Event = {
     else {
       if (!schema.XP) schema.XP = 0
       if (!schema.Level) schema.Level = 1
-      var nivel = schema.Level,
-        xp = schema.XP,
-        xpRandom = Math.floor(Math.random() * 25) + 1
+        var nivel = schema.Level,
+          xp = schema.XP,
+          xpRandom = Math.floor(Math.random() * 25) + 1
       schema.XP = + xpRandom + schema.XP
+
       schema.save().then(() => {
         if (schema.XP > (5 * (schema.Level ** 2) + 50 * schema.Level + 100)) {
           schema.Level = schema.Level + 1
@@ -67,7 +67,6 @@ export const event: Event = {
             if (resp) {
               if (!message.guild.me.hasPermission('EMBED_LINKS')) return message.lineReply(`${client.Emojis.no_check} Necesito permisos para enviar embeds.`)
               Economy.createUser(message.member.id, message.guild.id) && (command as Command).run(client, message, args);
-              if (tip() !== false) message.lineReply(tip())
             } else return message.lineReply(new MessageEmbed().setColor(Discord).setDescription(`
             ${client.Emojis.no_check} Debes esperar **${tiempo.segundos}** segundos para volver a usar **${command.name}**.`))
           })
@@ -76,7 +75,6 @@ export const event: Event = {
             if (resp) {
               if (!message.guild.me.hasPermission('EMBED_LINKS')) return message.lineReply(`${client.Emojis.no_check} Necesito permisos para enviar embeds.`)
               Economy.createUser(message.member.id, message.guild.id) && (command as Command).run(client, message, args);
-              if (tip() === true || tip() !== false) return message.lineReply(tip())
             } else return message.lineReply(new MessageEmbed().setColor(Discord).setDescription(`
             ${client.Emojis.no_check} Debes esperar **${tiempo.segundos}** segundos para volver a usar **${command.name}**.`))
           })
@@ -86,4 +84,3 @@ export const event: Event = {
     }
   },
 };
-

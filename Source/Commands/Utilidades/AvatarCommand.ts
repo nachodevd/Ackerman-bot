@@ -49,7 +49,9 @@ export const command: Command = {
               })
             )
             .setColor(Discord);
-          return message.lineReply(embed);
+          return message.lineReply(embed).catch(() =>{
+            return message.lineReply(`⚠️ Error desconocido.`)
+          });
         }
       }
     }

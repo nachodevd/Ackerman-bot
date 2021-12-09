@@ -130,6 +130,8 @@ export const command: Command = {
    `
       )
       .setColor(Discord);
-    message.lineReply(embed1);
+    message.lineReply(embed1).catch(() =>{
+      return message.lineReply(`⚠️ Error desconocido.`)
+    });
   },
 };

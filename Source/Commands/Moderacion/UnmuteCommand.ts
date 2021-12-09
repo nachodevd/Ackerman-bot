@@ -2,7 +2,7 @@
 import { crearDB } from 'megadb'
 const muteados = new crearDB({ carpeta: 'Database', nombre: 'MuteUserDrive' }),
   rol_mute = new crearDB({ carpeta: 'Database', nombre: 'RolMuteDrive' })
-import t from "google-translate-api";
+import t from "@vitalets/google-translate-api";
 import { Command } from "../../Base/Command";
 import { Discord } from "../../Util/Colors.json";
 import { MessageEmbed, TextChannel } from 'discord.js';

@@ -45,7 +45,9 @@ export const command: Command = {
           `\`\`\`fix\n${message.createdTimestamp - Date.now()} ms\`\`\``,
           true
         );
-      message.lineReply(embed);
+      message.lineReply(embed).catch(() =>{
+        return message.lineReply(`⚠️ Error desconocido.`)
+      });
     } catch (err) {
       embed
         .addField("Resultado", `\`\`\`ts\n${clean(err)}\`\`\``)
@@ -56,7 +58,9 @@ export const command: Command = {
           `\`\`\`fix\n${message.createdTimestamp - Date.now()} ms\`\`\``,
           true
         );
-      message.lineReply(embed);
+      message.lineReply(embed).catch(() =>{
+        return message.lineReply(`⚠️ Error desconocido.`)
+      });;
     }
   },
 };

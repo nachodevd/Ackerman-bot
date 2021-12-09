@@ -28,8 +28,11 @@ export const command: Command = {
         .get(args[0])
         .then(async (response) => {
           fs.writeFile(path.join(__dirname + '../../../Cache/http_body/body.html'), response.body.toString(), function (err) {
-            if (err) return console.log(err) && message.lineReply(`⚠️ Error desconocido.`)
-            message.lineReply({ files: [path.join(__dirname + '../../../Cache/http_body/body.html')] }).then((response) => {
+            if (err) {
+              console.log(err)
+              message.lineReply(`⚠️ Error desconocido.`)
+              return
+            } message.lineReply({ files: [path.join(__dirname + '../../../Cache/http_body/body.html')] }).then((response) => {
               fs.unlinkSync(path.join(__dirname + '../../../Cache/http_body/body.html'))
               return
             })

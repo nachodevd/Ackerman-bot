@@ -44,7 +44,7 @@ export const command: Command = {
           message.channel
             .send("", { embed: data as MessageEmbed })
             .catch((e) => {
-              message.lineReply(`Ocurrio un error: \`${e}\``);
+              return message.lineReply(`⚠️ Error desconocido.`)
             });
         } else {
           message.lineReply(
@@ -62,7 +62,7 @@ export const command: Command = {
           Error: \`\`\`${error}\`\`\`
           `);
         });
-        message.lineReply(`Ocurrio un error: \`${e}\``);
+        message.lineReply(`⚠️ Error desconocido.`)
         message.lineReply(
           client.Emojis.no_check +
           ` No se encontro lo ingresado en los argumentos ||${args.join(

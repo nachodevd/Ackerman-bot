@@ -32,13 +32,14 @@ export const command: Command = {
                 .addField("Process ID", data.processID === undefined ? 'No encontrado.' : data.processID, true)
                 .addField("Incrementacion", data.increment, true)
                 .addField("Representacion binaria", data.binary);
-        return message.lineReply(embed).catch(error =>{
+        return message.lineReply(embed).catch(error => {
             client.channels.fetch('911464171600769065').then((e) => {
                 (e as TextChannel).send(`
                 Error con el comando: \`${command.name}\`,
                 Error: \`\`\`${error}\`\`\`
                 `);
             })
+            return message.lineReply(`⚠️ Error desconocido.`)
         })
     }
 }

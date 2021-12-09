@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Command } from "../../Base/Command";
-import translate from "translate-google";
+import translate from "@vitalets/google-translate-api";
 import { TextChannel } from "discord.js";
 export const command: Command = {
   name: "ban",

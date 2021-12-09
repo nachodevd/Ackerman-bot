@@ -1,12 +1,31 @@
 import { Event } from "../Base/Event";
+import WelcomeModel from "../Models/WelcomeModel";
 import { crearDB } from "megadb";
-import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
+import { CanvasSenpai } from 'canvas-senpai'
+const canva = new CanvasSenpai();
+import { GuildMember, MessageAttachment, MessageEmbed, TextChannel } from "discord.js";
 const GoalDB = new crearDB({ carpeta: "Database", nombre: "GoalDrive" }),
   DebugDB = new crearDB({ carpeta: "Database", nombre: "DebugChannelDrive" }),
   WelcomeDB = new crearDB({ carpeta: "Database", nombre: "WelcomeRolesDrive" });
 export const event: Event = {
   name: "guildMemberAdd",
   run: async (client, member: GuildMember) => {
+    var schema = await WelcomeModel.findOne({
+      Guild: member.guild.id,
+    })
+    if (!schema) { } else {
+      //const rank = new Rank().setBackground('COLOR', schema.ImageURL).setDiscriminator(message.member.user.discriminator).setUsername(message.member.user.username).setAvatar(message.member.user.displayAvatarURL({ format: 'png' })).setCurrentXP(xp).setRequiredXP((5 * (schema.Level ** 2) + 50 * schema.Level + 100)).setLevel(nivel).setStatus(message.member.user.presence.status, true)
+      canva.welcome(member, { link: schema.ImageURL, block: false, blur: false }).then(buffer => {
+        const img = new MessageAttachment(buffer, 'img.png')
+        return client.channels.fetch(schema.WelcomeChannel).then((res) => {
+          try {
+            (res as TextChannel).send(img)
+          } catch (error) {
+            return
+          }
+        })
+      })
+    }
     let debug_channel;
     if (DebugDB.tiene(member.guild.id))
       debug_channel = await DebugDB.get(member.guild.id);

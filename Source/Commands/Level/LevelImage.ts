@@ -8,7 +8,7 @@ export const command: Command = {
   name: "level-color",
   aliases: ['lclr'],
   description: "Con este comando podras administrar la imagen de fondo de la tarjeta de niveles.",
-  example: ["limg bluevio"],
+  example: ["lclr bluevio"],
   category: "Niveles",
   enable: true,
   onlyOwner: false,

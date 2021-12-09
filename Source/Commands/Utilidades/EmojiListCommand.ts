@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MessageEmbed } from "discord.js";
 import { Command } from "../../Base/Command";
 import { Discord } from "../../Util/Colors.json";
@@ -16,7 +17,9 @@ export const command: Command = {
             embed = new MessageEmbed().setColor(Discord)
         for (var i = 0; i < nm; i++) {
             message.channel.send(embed.setDescription(message.guild.emojis.cache.map((e) => `${e} **-** \`:${e.name}:\``).join(', ').slice(i * 2000, (i + 1) * 2000))
-            );
+            ).catch(() => {
+                return message.lineReply(`⚠️ Error desconocido.`)
+            });
         }
     }
 }

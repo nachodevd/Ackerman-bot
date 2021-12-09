@@ -1,18 +1,19 @@
 //@ts-nocheck
 import { Command } from "../../Base/Command";
 import { connect } from "mongoose";
-import LevelModel from "../../Models/LevelModel";
+import WelcomeModel from "../../Models/WelcomeModel";
+import { join } from "path";
 export const command: Command = {
-  name: "level-channel",
-  aliases: ['lch'],
-  description: "Con este comando podras administrar un canal donde llegaran las subidas de nivel.",
+  name: "welcome-channel",
+  aliases: ['wch'],
+  description: "Con este comando podras administrar un canal donde llegaran las bienvenidas.",
   example: [],
-  category: "Niveles",
+  category: "Bienvenida",
   enable: true,
   onlyOwner: false,
-  use: ["lch <mode> <channel?>"],
+  use: ["wch <mode> <channel?>"],
   run: async (client, message, args) => {
-    connect(client.getConfig.mongo + "Levels").catch((res) => { return })
+    connect(client.getConfig.mongo + "Welcome").catch((res) => { return })
 
     if (!message.member.hasPermission("MANAGE_GUILD"))
       return message.lineReply(
@@ -27,9 +28,9 @@ export const command: Command = {
         if (!channel) return message.lineReply(
           `${client.Emojis.no_check} Debes de ingresar un canal, ya sea mencion o ID.`
         );
-        const newSchema = await LevelModel.findOne({
+        const newSchema = await WelcomeModel.findOne({
           Guild: message.guild.id,
-          LevelChannel: channel.id
+          WelcomeChannel: channel.id
         })
         if(!channel.manageable) return message.lineReply(
           `${client.Emojis.no_check} No puedo ver o administrar ese canal.`
@@ -38,8 +39,8 @@ export const command: Command = {
           `${client.Emojis.no_check} No puedo ver o administrar ese canal.`
         );
         if (newSchema) {
-          newSchema.LevelChannel = channel.id
-          newSchema.ImageURL = '#FFFFFF'
+          newSchema.WelcomeChannel = channel.id
+          newSchema.ImageURL = join(__dirname+'..', '..', '..', '/Util/Images/bgwel.png')
           newSchema
             .save().then(() => {
               message.lineReply(`${client.Emojis.check} Se actualizo el canal a **${channel.name}**`)
@@ -54,12 +55,12 @@ export const command: Command = {
               console.error(`[MongoDB-Error]${error}`)
             })
         } else {
-          new LevelModel({
+          new WelcomeModel({
             Guild: message.guild.id,
-            LevelChannel: channel.id,
-            ImageURL: '#FFFFFF'
+            WelcomeChannel: channel.id,
+            ImageURL: join(__dirname+'..', '..', '..', '/Util/Images/bgwel.png')
           }).save().then(() => {
-            message.lineReply(`${client.Emojis.check} Se establecio el canal de niveles a **${channel.name}**`)
+            message.lineReply(`${client.Emojis.check} Se establecio el canal de bienvenida a **${channel.name}**`)
           })
             .catch((err) => {
               client.channels.cache.get('911464171600769065').then((e) => {
@@ -73,20 +74,20 @@ export const command: Command = {
         }
       }; break;
       case 'get': {
-        const newSchema = await LevelModel.findOne({
+        const newSchema = await WelcomeModel.findOne({
           Guild: message.guild.id,
         })
         if (newSchema) {
-          return message.lineReply(`${client.Emojis.check} El canal establecido de niveles es **${'<#' + newSchema.LevelChannel + '>'}**`)
+          return message.lineReply(`${client.Emojis.check} El canal establecido de bienvenida es **${'<#' + newSchema.WelcomeChannel + '>'}**`)
         } else {
-          return message.lineReply(`${client.Emojis.no_check} No se establecio ningun canal para los niveles.`)
+          return message.lineReply(`${client.Emojis.no_check} No se establecio ningun canal para las bienvenidas.`)
         }
       }; break;
       case 'delete': {
-        LevelModel.findOneAndDelete({
+        WelcomeModel.findOneAndDelete({
           Guild: message.guild.id,
         }).then((res) => {
-          return message.lineReply(`${client.Emojis.check} Se elimino de la base de datos el canal a donde llegaran las personas que suban de nivel.`)
+          return message.lineReply(`${client.Emojis.check} Se elimino de la base de datos el canal a donde llegaran las personas que ingresen al servidor.`)
         }).catch((error) => {
           client.channels.cache.get('911464171600769065').then((e) => {
             (e as TextChannel).send(`

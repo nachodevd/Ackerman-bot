@@ -36,7 +36,9 @@ export const command: Command = {
                     lol.setFooter(
                         `👍 ${memeUpvotes} 👎 ${memeDownvotes} 💬 ${memeNumComments}`
                     );
-                    message.lineReply(lol);
+                    message.lineReply(lol).catch(() => {
+                        return message.lineReply(`⚠️ Error desconocido.`)
+                    });
                 })
                 .catch((error) => {
                     client.channels.fetch('911464171600769065').then((e) => {
@@ -45,7 +47,11 @@ export const command: Command = {
                         Error: \`\`\`${error}\`\`\`
                         `);
                     });
-                    message.delete()
+                    try {
+                        message.delete()
+                    } catch (error) {
+                        return
+                    }
                 });
         } catch (error) {
             client.channels.fetch('911464171600769065').then((e) => {
@@ -54,7 +60,11 @@ export const command: Command = {
                 Error: \`\`\`${error}\`\`\`
                 `);
             });
-            message.delete()
+            try {
+                message.delete()
+            } catch (error) {
+                return
+            }
         }
     }
 }

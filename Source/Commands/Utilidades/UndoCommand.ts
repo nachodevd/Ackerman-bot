@@ -13,11 +13,15 @@ export const command: Command = {
     enable: true,
     run: async (client, message, args) => {
         if (!message.guild.me.lastMessage) return message.channel.send('No se reconocio ningun comando.').then((msg) => {
-            msg.delete({ timeout: 700 })
+            msg.delete({ timeout: 700 }).catch(() => {
+                return message.lineReply(`⚠️ Error desconocido.`)
+            })
         })
         message.guild.me.lastMessage.delete().then(() => {
-            message.channel.send('Elimine 1 comando.').then((msg) => {  
+            message.channel.send('Elimine 1 comando.').then((msg) => {
                 msg.delete({ timeout: 700 })
+            }).catch(() => {
+                return message.lineReply(`⚠️ Error desconocido.`)
             })
         })
     }
